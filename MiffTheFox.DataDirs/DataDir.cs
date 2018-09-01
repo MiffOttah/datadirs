@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MiffTheFox.DataDirs
 {
-    public class Class1
+    public class DataDir
     {
     }
 }

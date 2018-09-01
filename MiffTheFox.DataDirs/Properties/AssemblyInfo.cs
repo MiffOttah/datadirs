@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("MiffTheFox.DataDirs")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Data Directory Library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("MiffTheFox")]
 [assembly: AssemblyProduct("MiffTheFox.DataDirs")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyCopyright("Copyright © 2018 MiffTheFox")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
