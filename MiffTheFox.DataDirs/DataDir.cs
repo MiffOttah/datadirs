@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
-
 using PathType = System.IO.Path;
 
 namespace MiffTheFox.DataDirs
 {
-    public class DataDir
+    public partial class DataDir
     {
         public string Path { get; }
 
