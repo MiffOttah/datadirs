@@ -7,6 +7,7 @@ namespace MiffTheFox.DataDirs
     public partial class DataDir
     {
         public string Path { get; }
+        public bool DirectoryExists => Directory.Exists(Path);
 
         public DataDir(string path)
         {
@@ -20,13 +21,13 @@ namespace MiffTheFox.DataDirs
         public override int GetHashCode() => Path.GetHashCode();
         public override bool Equals(object obj) => obj is DataDir that ? Path.Equals(that.Path) : base.Equals(obj);
 
-        #region Manipulation of the directory itself
-
-        public bool DirectoryExists => Directory.Exists(Path);
-
         /// <summary>Creates the data directory if it doesn't exist.</summary>
         public void CreateIfNotExists() => Directory.CreateDirectory(Path);
 
-        #endregion
+        public DataDir Subdirectory(string name)
+        {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException(nameof(name), "Name cannot be null or empty.");
+            return new DataDir(PathType.Combine(Path, name));
+        }
     }
 }

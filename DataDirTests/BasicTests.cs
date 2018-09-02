@@ -54,5 +54,34 @@ namespace DataDirTests
             Directory.Delete(testPath);
             Assert.IsFalse(dd.DirectoryExists);
         }
+
+        [TestMethod]
+        public void TestSubdirectory()
+        {
+            var rng = new Random();
+            string basePath = Path.Combine(Path.GetTempPath(), "DataDirTests", "subdir");
+
+            string testPath;
+            do
+            {
+                testPath = $"{basePath}_{DateTime.Now.Ticks:x}_{rng.Next():x}";
+            } while (Directory.Exists(testPath));
+
+            var dd = new DataDir(testPath);
+            Assert.IsFalse(dd.DirectoryExists);
+
+            dd.CreateIfNotExists();
+            Assert.IsTrue(dd.DirectoryExists);
+            Assert.IsTrue(Directory.Exists(testPath));
+
+            var subdir = dd.Subdirectory("subdir");
+            Assert.IsFalse(subdir.DirectoryExists);
+            subdir.CreateIfNotExists();
+            Assert.IsTrue(subdir.DirectoryExists);
+
+            Directory.Delete(subdir.Path);
+            Directory.Delete(testPath);
+            Assert.IsFalse(dd.DirectoryExists);
+        }
     }
 }
