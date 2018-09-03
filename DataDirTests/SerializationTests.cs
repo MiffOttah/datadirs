@@ -9,7 +9,8 @@ namespace DataDirTests
     [TestClass]
     public class SerializationTests
     {
-        private struct TestObject
+        [Serializable]
+        public struct TestObject
         {
             public int SomeInt;
             public double SomeDouble;
@@ -54,6 +55,54 @@ namespace DataDirTests
                 SomeString = "asdfghjkl",
                 SomeNumbers = new int[] { 1, 2, 3, 4, 5 }
             };
+
+            dd.WriteObject(filename, data);
+
+            var data2 = dd.ReadObject<TestObject>(filename);
+            data.Test(data2);
+
+            dd.DeleteFile(filename);
+        }
+
+        [TestMethod]
+        public void XmlSerTest()
+        {
+            var dd = DataDir.Create(DataDirType.Temporary);
+            dd.CreateIfNotExists();
+
+            string filename = DateTime.UtcNow.Ticks.ToString("x") + ".xml";
+            var data = new TestObject
+            {
+                SomeInt = 123,
+                SomeDouble = 45.6,
+                SomeString = "Ξεσκεπάζω τὴν ψυχοφθόρα βδελυγμία",
+                SomeNumbers = new int[] { 12, 11, 10 }
+            };
+
+            dd.WriteObject(filename, data);
+
+            var data2 = dd.ReadObject<TestObject>(filename);
+            data.Test(data2);
+
+            dd.DeleteFile(filename);
+        }
+
+        [TestMethod]
+        public void BinarySerTest()
+        {
+            var dd = DataDir.Create(DataDirType.Temporary);
+            dd.CreateIfNotExists();
+
+            var data = new TestObject
+            {
+                SomeInt = 0xc0ffee,
+                SomeDouble = 12345.54321,
+                SomeString = "the quick brown fox jumps over the lazy dog",
+                SomeNumbers = new int[] { 1, 2, 3, 4, -10, -20, -30, -40 }
+            };
+
+            dd.SerializationFormats.Add(".custom", new MiffTheFox.DataDirs.Serialization.BinarySerializationFormat());
+            string filename = DateTime.UtcNow.Ticks.ToString("x") + ".custom";
 
             dd.WriteObject(filename, data);
 

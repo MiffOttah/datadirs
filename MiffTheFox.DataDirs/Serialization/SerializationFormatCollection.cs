@@ -40,7 +40,8 @@ namespace MiffTheFox.DataDirs.Serialization
         {
             return new SerializationFormatCollection
             {
-                { "json", new JsonSerializationFormat() }
+                { "json", new JsonSerializationFormat() },
+                { "xml", new XmlSerializationFormat() }
             };
         }
     }
