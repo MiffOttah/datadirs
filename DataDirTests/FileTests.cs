@@ -57,5 +57,19 @@ namespace DataDirTests
             dd.WriteAllBytes("test.bin", binData);
             Assert.AreEqual(binData, dd.ReadAllBytes("test.bin"));
         }
+
+        [TestMethod]
+        public void TestDelete()
+        {
+            var dd = DataDir.Create(DataDirType.Temporary);
+            string filename = "DeleteMe-" + DateTime.Now.Ticks.ToString("x") + ".txt";
+            string stringData = "This file should be deleted.\n";
+
+            dd.WriteAllText(filename, stringData, Encoding.ASCII);
+            Assert.AreEqual(stringData, dd.ReadAllText(filename, Encoding.ASCII));
+
+            dd.DeleteFile(filename);
+            Assert.ThrowsException<FileNotFoundException>(() => dd.ReadAllText(filename, Encoding.ASCII));
+        }
     }
 }

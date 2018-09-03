@@ -53,6 +53,10 @@
     <Compile Include="Enums.cs" />
     <Compile Include="Native.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\ISerializationFormat.cs" />
+    <Compile Include="Serialization\JsonSerializationFormat.cs" />
+    <Compile Include="Serialization\SerializationException.cs" />
+    <Compile Include="Serialization\SerializationFormatCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

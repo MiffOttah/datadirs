@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MiffTheFox.DataDirs.Serialization;
+using System;
 using System.IO;
 using System.Text;
-using MiffTheFox;
 using PathType = System.IO.Path;
 
 namespace MiffTheFox.DataDirs
@@ -66,5 +66,59 @@ namespace MiffTheFox.DataDirs
 
         public string ReadAllText(string filePath, Encoding encoding) => ReadAllBytes(filePath).ToString(encoding);
         public void WriteAllText(string filePath, string data, Encoding encoding) => WriteAllBytes(filePath, BinString.FromTextString(data, encoding));
+
+        public T ReadObject<T>(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath)) throw new ArgumentException(nameof(filePath), "File path cannot be null or empty.");
+
+            string extension = PathType.GetExtension(filePath);
+            if (string.IsNullOrEmpty(extension)) throw new ArgumentException(nameof(filePath), "The file requires an extension.");
+
+            if (SerializationFormats.TryGetValue(extension, out var format) && format != null)
+            {
+                using (var stream = OpenFile(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    try
+                    {
+                        return format.Read<T>(stream);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new SerializationFailException($"Could not read the file using {format.GetType().Name}.", ex);
+                    }
+                }
+            }
+            else
+            {
+                throw new UnknownSerializationFormatException($"Cannot read an object from a {extension} file.");
+            }
+        }
+
+        public void WriteObject<T>(string filePath, T data)
+        {
+            if (string.IsNullOrEmpty(filePath)) throw new ArgumentException(nameof(filePath), "File path cannot be null or empty.");
+
+            string extension = PathType.GetExtension(filePath);
+            if (string.IsNullOrEmpty(extension)) throw new ArgumentException(nameof(filePath), "The file requires an extension.");
+
+            if (SerializationFormats.TryGetValue(extension, out var format) && format != null)
+            {
+                using (var stream = OpenFile(filePath, FileMode.Create, FileAccess.Write))
+                {
+                    try
+                    {
+                        format.Write<T>(stream, data);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new SerializationFailException($"Could not write the file using {format.GetType().Name}.", ex);
+                    }
+                }
+            }
+            else
+            {
+                throw new UnknownSerializationFormatException($"Cannot write an object to a {extension} file.");
+            }
+        }
     }
 }
