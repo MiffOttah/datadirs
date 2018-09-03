@@ -8,6 +8,8 @@ namespace MiffTheFox.DataDirs
 {
     partial class DataDir
     {
+        public string GetFullPath(string filePath) => PathType.Combine(Path, filePath);
+
         public Stream OpenFile(string filePath, FileMode mode, FileAccess access)
         {
             if (string.IsNullOrEmpty(filePath)) throw new ArgumentException(nameof(filePath), "File path cannot be null or empty.");

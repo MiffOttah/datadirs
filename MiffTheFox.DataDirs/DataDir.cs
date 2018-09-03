@@ -27,7 +27,7 @@ namespace MiffTheFox.DataDirs
             if (string.IsNullOrEmpty(path)) throw new ArgumentException(nameof(path), "Path cannot be null or empty.");
             if (path.IndexOfAny(PathType.GetInvalidPathChars()) != -1) throw new ArgumentException(nameof(path), "Path contains an invalid character.");
 
-            Path = path;
+            Path = PathType.GetFullPath(path);
         }
 
         public override string ToString() => Path;

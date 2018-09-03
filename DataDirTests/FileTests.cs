@@ -71,5 +71,26 @@ namespace DataDirTests
             dd.DeleteFile(filename);
             Assert.ThrowsException<FileNotFoundException>(() => dd.ReadAllText(filename, Encoding.ASCII));
         }
+
+        [TestMethod]
+        public void TestGetPath()
+        {
+            var data = BinString.FromBytes("C0FFEEC0FFEEC0FFEEC0FFEE");
+            var dd = DataDir.Create(DataDirType.Temporary);
+            string filename = DateTime.Now.Ticks.ToString("x") + ".tmp";
+            string fullPath = dd.GetFullPath(filename);
+
+            Assert.IsFalse(File.Exists(fullPath));
+            dd.WriteAllBytes(filename, data);
+            Assert.AreEqual(data, (BinString)File.ReadAllBytes(fullPath));
+
+            data = BinString.FromTextString("ABCDEFGHIJKLMNOPQRSTUVWXYZ", Encoding.ASCII);
+            File.WriteAllBytes(fullPath, data);
+            Assert.AreEqual(data, dd.ReadAllBytes(filename));
+
+            Assert.IsTrue(File.Exists(fullPath));
+            dd.DeleteFile(filename);
+            Assert.IsFalse(File.Exists(fullPath));
+        }
     }
 }
