@@ -61,8 +61,13 @@
     <Compile Include="Serialization\XmlSerializationFormat.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MiffTheFox.DataDirs.nuspec" />
+    <None Include="MiffTheFox.DataDirs.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>nuget pack $(ProjectPath)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

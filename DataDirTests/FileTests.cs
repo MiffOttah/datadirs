@@ -92,5 +92,22 @@ namespace DataDirTests
             dd.DeleteFile(filename);
             Assert.IsFalse(File.Exists(fullPath));
         }
+
+        [TestMethod]
+        public void TestGetNewFileName()
+        {
+            const string testHint = "Test Hint";
+            var dd = DataDir.Create(DataDirType.Temporary);
+
+            string f1 = dd.GetNewFileName(testHint, "tmp");
+            Assert.IsFalse(dd.FileExists(f1));
+
+            dd.WriteAllBytes(f1, BinString.Empty);
+            Assert.IsTrue(dd.FileExists(f1));
+
+            string f2 = dd.GetNewFileName(testHint, "tmp");
+            Assert.AreNotEqual(f1, f2);
+            Assert.IsFalse(dd.FileExists(f2));
+        }
     }
 }

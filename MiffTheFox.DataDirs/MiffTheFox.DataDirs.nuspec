@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>$version$</version>
+    <version>1.1.0</version>
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/MiffOttah/datadirs</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>First release</releaseNotes>
+    <releaseNotes>Some useful utlity functions</releaseNotes>
     <copyright>Copyright 2018 MiffTheFox</copyright>
     <tags>path applicationdata</tags>
   </metadata>
